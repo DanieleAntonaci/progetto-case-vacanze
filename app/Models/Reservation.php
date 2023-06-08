@@ -20,6 +20,8 @@ class Reservation extends Model
         'linen',
         'price_linen',
         'num_reservation',
+        'cot', //brandina
+        'crib' //culla
     ];
 
     public function reservationtype (){

@@ -1,26 +1,14 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MainController;
+use App\Http\Controllers\PriceController;
+use App\Http\Controllers\ReservationController;
+use App\Models\Apartment;
+use App\Models\Reservation;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-
-
-// Route::get('/', [HomeController::class, 'index'])->name('home');
-// Route::middleware('guest')->group(function () {
-
-// });
 Route::get('/', function(){
     return view('auth.login');
 })-> name('login');
@@ -33,12 +21,25 @@ Route::post('/register', function(){
     return view('auth.register');
 }) -> name('register');
 
+
+// 
 Route::middleware('auth')->group(function () {
     Route::post('/', function(){
         return view('auth.layouts.layout');
     });
+    Route::get('/home', function(){
+        return view('menu.dashboard');
+    });
+    // APPARTAMENTI
+    Route::get('/apartment', [MainController::class, 'showApartment'])->name('home');
+    Route::get('/apartment/{apartment}', [MainController::class,'showSingleApartment'])-> name('singleApartment');
 
+    // PRENOTAZIONI
+    Route::get('/prenotazioni', [ReservationController::class, 'showReservation'] )-> name('reservation');
+    Route::get('/prenotazioni/prenotazione/{reservation}', [ReservationController::class, 'reservatoionSingle']) -> name('reservationShow');
+
+    // PRICE
+    Route::get('/prezzi', [PriceController::class, 'showPrice'])-> name('prices');
 });
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

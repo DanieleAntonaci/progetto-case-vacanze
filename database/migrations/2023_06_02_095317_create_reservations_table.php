@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
+            
             $table->string('guest', 64);
             $table->string('telephone_number', 32)-> nullable();
             $table->string('email')-> nullable();
@@ -23,6 +24,9 @@ return new class extends Migration
             $table->tinyInteger('linen')-> nullable();
             $table->smallInteger('price_linen')-> nullable();
             $table->string('num_reservation', 16)-> nullable();
+            $table->boolean('cot')-> default(false);
+            $table->boolean('crib')-> default(false);
+
             $table->timestamps();
         });
     }

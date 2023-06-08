@@ -25,6 +25,9 @@ class ReservationFactory extends Factory
             'linen' => fake() -> numberBetween(0, 2),
             'price_linen' => fake() -> numberBetween(0, 60),
             'num_reservation' => fake() -> randomNumber(5, true),
+            'cot'=> fake()-> boolean(),
+            'crib'=> fake()-> boolean(),
+
         ];
     }
 }
