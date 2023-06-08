@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('prices', function (Blueprint $table) {
             $table->id();
             $table->integer('price') -> unsigned();
-            $table->date('start_date');
-            $table->date('end_date');
+            $table->date('date');
             $table->timestamps();
         });
     }

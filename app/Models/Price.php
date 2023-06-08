@@ -11,8 +11,7 @@ class Price extends Model
 
     protected $fillable =[
         'price',
-        'start_date',
-        'end_date'
+        'date',
     ];
 
     public function apartments (){

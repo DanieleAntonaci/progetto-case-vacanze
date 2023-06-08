@@ -40,6 +40,10 @@ Route::middleware('auth')->group(function () {
 
     // PRICE
     Route::get('/prezzi', [PriceController::class, 'showPrice'])-> name('prices');
+    Route::get('/prezzi/creazione', [PriceController::class, 'createPrice'])-> name('priceCreate');
+    Route::post('/prezzi/creazione', [PriceController::class, 'storePrice'])-> name('priceStore');
+
+
 });
 Auth::routes();
 

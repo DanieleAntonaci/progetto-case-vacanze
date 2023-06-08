@@ -3,7 +3,12 @@
 
 @section('content')
 <div class="container">
-    {{$prices}}
+    <a href="{{route('priceCreate')}}">Aggiungi nuovi prezzi</a>
+
+    @foreach ($prices as $price)
+    {{$price -> price}}
+    {{$price}}        
+    @endforeach
 
 </div>
 @endsection
