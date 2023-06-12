@@ -15,8 +15,98 @@ use Illuminate\Http\Request;
 class PriceController extends Controller
 {
     public function showPrice(){
-        $prices= Price::with('apartments')-> get();
-        return view('price.prices', compact('prices'));
+        $prices= Price::orderBy('date', 'asc')-> orderBy('price')->with('apartments')-> get();
+        $apartmentList= Apartment::pluck('name')->toArray();
+        $objPrices = [];
+        $assPriceApartment =[];
+        $objPricesIndex=0;
+        $apartmentArray =[];
+        $newRow = false;
+        
+        for ($index=0; $index < count($prices); $index++) {
+            $samePrice =false;
+            $differentPrice =false;
+            $positionPrice =0;
+
+            if ($newRow) {
+                $newRow = false;
+                for ($i=0; $i < count($objPrices[$objPricesIndex]['assPriceApartment']); $i++) { 
+                    $positionPrice = $i;
+                    if ($prices[$index]['date'] === $objPrices[$objPricesIndex]['date']) {
+                        if($prices[$index]['price'] === $objPrices[$objPricesIndex]['assPriceApartment'][$positionPrice]['price']){
+                            $samePrice =true;
+                        }elseif($prices[$index]['price'] !== $objPrices[$objPricesIndex]['assPriceApartment'][$positionPrice]['price']){
+                            $differentPrice =true;
+                        }
+                    }
+                    
+                }
+            }
+            if($index === 0 ){
+                $newRow = true;
+                // per il vaolore uguale a 0 non c'é niente da controllare, deve solo crearne una nuova
+                foreach ($prices[$index]['apartments'] as $key => $value) {
+                    array_push($apartmentArray,$value['name']);
+                }
+                array_push($assPriceApartment, [
+                    'price' => $prices[$index]['price'],
+                    'apartments' => $apartmentArray
+                ],);
+                $objPrices[$objPricesIndex] =[
+                    'date' => $prices[$index]['date'], 
+                    'assPriceApartment'=>$assPriceApartment,
+                ];
+            }elseif($samePrice){
+                $samePrice= false;
+                foreach ($prices[$index]['apartments'] as $key => $value) {
+                    array_push($apartmentArray,$value['name']);
+                }
+                if($prices[$index]['price'] === $objPrices[$objPricesIndex]['assPriceApartment'][$positionPrice]['price']){
+
+                    $objPrices[$objPricesIndex]['assPriceApartment'][$positionPrice] =[
+                        'price' => $objPrices[$objPricesIndex]['assPriceApartment'][$positionPrice]['price'],
+                        'apartments' => $apartmentArray,
+                    ];
+                }
+               
+
+            }elseif($differentPrice){
+                $apartmentArray =[];
+                $differentPrice = false;
+                foreach ($prices[$index]['apartments'] as $key => $value) {
+                    array_push($apartmentArray,$value['name']);
+                }
+                array_push($assPriceApartment, [
+                    'price' => $prices[$index]['price'],
+                    'apartments' => $apartmentArray
+                ],);
+                $objPrices[$objPricesIndex] =[
+                    'date' => $objPrices[$objPricesIndex]['date'], 
+                    'assPriceApartment'=>$assPriceApartment,
+                ];
+            }else{
+                $newRow = true;
+                $objPricesIndex += 1;
+                $apartmentArray =[];
+                $assPriceApartment =[];
+                foreach ($prices[$index]['apartments'] as $key => $value) {
+                    array_push($apartmentArray,$value['name']);
+                }
+                array_push($assPriceApartment, [
+                    'price' => $prices[$index]['price'],
+                    'apartments' => $apartmentArray
+                ],);
+                $objPrices[$objPricesIndex] =[
+                    'date' => $prices[$index]['date'], 
+                    'assPriceApartment'=>$assPriceApartment,
+                ];
+            }
+        }
+        // var_dump($objPrices);
+        return view('price.prices', compact([
+            'apartmentList',
+            'objPrices'
+            ]));
     }
 
     // reinderizza alla pagina di creazione
