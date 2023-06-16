@@ -6,17 +6,21 @@
 
     <div class="d-flex justify-content-between mb-4">
         <a class="btn btn-primary w-25" href="{{route('dashboard')}}">Indietro</a>
-        <a class="btn btn-primary w-25" href="{{route('priceCreate')}}">Aggiungi nuovi prezzi</a>
-    </div>
-        @foreach ($months as $key  => $month)
-            <a href="{{route('prices',$key + 1)}}" 
-            @if ($key + 1 == $monthSelected)
-                class="btn btn-primary"
-            @else
-                class=" btn btn-outline-primary"
-            @endif>{{$month}}</a>
-            
-        @endforeach
+        <a class="btn btn-primary w-25" href="{{route('createPrice')}}">Aggiungi nuovi prezzi</a>
+    </div>    
+    <div>
+
+    
+    @foreach ($months as $key  => $month)
+        <a href="{{route('prices',$key + 1)}}" 
+
+        @if ($key + 1 == $monthSelected)
+            class="btn btn-primary"
+        @else
+            class=" btn btn-outline-primary"
+        @endif>{{$month}}</a>
+
+    @endforeach
 
 
     <table class="table table-light table-striped table-bordered">
@@ -34,20 +38,27 @@
 
         <tbody>
 
-            @foreach ($objPrices as $price)
-                <tr>
+            <tr>
+                    @foreach ($days as $day)
 
                     <td>
-                        {{date('d-m-Y', strtotime($price['date']))}}
+                        {{$day}}
                     </td>
 
                     @foreach ($apartmentList as $apartmentPrice)
 
                         <td>
-                            @foreach ($price['assPriceApartment'] as $item)
-                                @if (in_array($apartmentPrice,$item['apartments']))
-                                    {{$item['price']}}
+                            @foreach ($prices as $price)
+
+                                @if ($day == date('d-m-Y', strtotime($price['date'])))
+                                    @foreach ($price -> apartments as $apartment)
+                                        @if ($apartment -> name == $apartmentPrice)   
+                                            <a href="{{route('editPrice', $price)}}">{{$price -> price}}</a>
+                                        @endif
+                                    @endforeach
+                                        
                                 @endif
+                            
                             @endforeach
                         </td>
 
@@ -58,6 +69,6 @@
         </tbody>
 
     </table>
-
+</div>
 </div>
 @endsection

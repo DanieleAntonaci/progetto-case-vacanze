@@ -40,9 +40,9 @@ Route::middleware('auth')->group(function () {
 
     // PRICE
     Route::get('/prezzi/{month}', [PriceController::class, 'showPrice'])-> name('prices');
-    Route::get('/prezzi/creazione', [PriceController::class, 'createPrice'])-> name('priceCreate');
-    Route::post('/prezzi/creazione', [PriceController::class, 'storePrice'])-> name('priceStore');
-
+    Route::get('/modificaPrezzi/creazione', [PriceController::class, 'createPrice'])-> name('createPrice');
+    Route::post('/modificaPrezzi/creazione', [PriceController::class, 'storePrice'])-> name('priceStore');
+    Route::get('/modificaPrezzi/aggiornamento/{price}', [PriceController::class, 'editPrice']) -> name('editPrice');
 
 });
 Auth::routes();
