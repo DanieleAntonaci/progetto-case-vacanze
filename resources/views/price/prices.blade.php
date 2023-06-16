@@ -8,7 +8,15 @@
         <a class="btn btn-primary w-25" href="{{route('dashboard')}}">Indietro</a>
         <a class="btn btn-primary w-25" href="{{route('priceCreate')}}">Aggiungi nuovi prezzi</a>
     </div>
-    
+        @foreach ($months as $key  => $month)
+            <a href="{{route('prices',$key + 1)}}" 
+            @if ($key + 1 == $monthSelected)
+                class="btn btn-primary"
+            @else
+                class=" btn btn-outline-primary"
+            @endif>{{$month}}</a>
+            
+        @endforeach
 
 
     <table class="table table-light table-striped table-bordered">

@@ -10,7 +10,6 @@
     <body >
       
             @yield('contenuto')
-            gdshgdsh
 
     </body>
 </html>

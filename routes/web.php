@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/prenotazioni/prenotazione/{reservation}', [ReservationController::class, 'reservatoionSingle']) -> name('reservationShow');
 
     // PRICE
-    Route::get('/prezzi', [PriceController::class, 'showPrice'])-> name('prices');
+    Route::get('/prezzi/{month}', [PriceController::class, 'showPrice'])-> name('prices');
     Route::get('/prezzi/creazione', [PriceController::class, 'createPrice'])-> name('priceCreate');
     Route::post('/prezzi/creazione', [PriceController::class, 'storePrice'])-> name('priceStore');
 

@@ -14,11 +14,46 @@ use Illuminate\Http\Request;
 
 class PriceController extends Controller
 {
-    public function showPrice(){
+    public function showPrice(Request $request){
+        setlocale(LC_TIME, 'it_IT'); // Imposta la lingua italiana
+        $monthSelected = $request['month'];
 
-        $prices= Price::orderBy('date', 'asc')-> orderBy('price')->with('apartments')-> get();
-        $apartmentList= Apartment::pluck('name')->toArray();
+        $currentYear= Carbon::parse(now())->format('Y');
+        
+        if($monthSelected === '-1' || $monthSelected === '0'){
+            $monthSelected= Carbon::parse(now())->format('m');
+        }else{ 
+            $monthSelected = $monthSelected ;
+        }
+        
+        $prices= Price::whereYear('date', $currentYear)
+            ->whereMonth('date', intval($monthSelected))
+            ->orderBy('date', 'asc')
+            -> orderBy('price')
+            ->with('apartments')
+            -> get();
 
+        $apartmentList= Apartment::pluck('name')
+            ->toArray();
+
+
+            
+        
+        //OTTENGO I MESI
+        $months = [];
+
+        for ($month = 1; $month <= 12; $month++) {
+            $date = Carbon::create($currentYear, $month, 1);
+            $monthName = $date->formatLocalized('%B');
+            $months[] = $monthName;
+        }
+
+        // OTTENGO I GIORNI
+            
+
+
+
+        var_dump($monthSelected);
         $objPrices = [];
         $assPriceApartment =[];
         $objPricesIndex=0;
@@ -132,7 +167,9 @@ class PriceController extends Controller
         // var_dump($objPrices);
         return view('price.prices', compact([
             'apartmentList',
-            'objPrices'
+            'objPrices',
+            'months',
+            'monthSelected'
             ]));
     }
 
