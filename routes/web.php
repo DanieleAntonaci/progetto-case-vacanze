@@ -29,7 +29,7 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('/home', function(){
         return view('menu.dashboard');
-    });
+    }) -> name('dashboard');
     // APPARTAMENTI
     Route::get('/apartment', [MainController::class, 'showApartment'])->name('home');
     Route::get('/apartment/{apartment}', [MainController::class,'showSingleApartment'])-> name('singleApartment');

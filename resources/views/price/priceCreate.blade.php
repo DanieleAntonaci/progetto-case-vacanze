@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-
+    <a href="{{route('prices')}}" class="btn btn-primary">Indietro</a>
 
     <form action="{{route('priceStore')}}" method="post">
         @csrf
