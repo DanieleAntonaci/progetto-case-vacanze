@@ -53,7 +53,7 @@
                                 @if ($day == date('d-m-Y', strtotime($price['date'])))
                                     @foreach ($price -> apartments as $apartment)
                                         @if ($apartment -> name == $apartmentPrice)   
-                                            <a href="{{route('editPrice', $price)}}">{{$price -> price}}</a>
+                                            <a href="{{route('editPrice', $price)}}" class="text-dark link-offset-2 link-underline link-underline-opacity-0">{{$price -> price}}</a>
                                         @endif
                                     @endforeach
                                         

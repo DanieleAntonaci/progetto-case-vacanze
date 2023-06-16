@@ -2,9 +2,9 @@
 
 @section('content')
 <div class="container">
-    {{-- <a href="{{route('prices', -1)}}" class="btn btn-primary">Indietro</a>
+    <a href="{{route('prices', -1)}}" class="btn btn-primary">Indietro</a>
 
-    <form action="{{route('priceStore')}}" method="post">
+    <form action="{{route('updatePrice', $price)}}" method="post">
         @csrf
         @foreach ($structures as $structure)
             <div class="pt-3">
@@ -13,7 +13,13 @@
                 
                 <div class="btn-group" role="group" aria-label="Basic checkbox toggle button group">
                     @foreach ($structure -> apartments as $apartment)
-                        <input type="checkbox" name="apartmentArray[]" class="btn-check" value="{{$apartment -> id}}" id="{{$apartment -> id}}">
+                        <input type="checkbox" name="apartmentArray[]" class="btn-check" value="{{$apartment -> id}}" id="{{$apartment -> id}}" 
+                        @foreach ($price -> apartments as $item)
+                            @if ($item -> name == $apartment -> name)
+                            checked
+                            @endif
+                            @endforeach
+                        >
                         <label for="{{$apartment -> id}}"  class="btn btn-outline-primary" >{{$apartment -> name}}</label>
                     @endforeach
                 </div>
@@ -25,19 +31,20 @@
 
         
         <label for="price">Prezo</label>
-        <input type="number" name="price">
+        <input type="number" name="price" value="{{$price -> price}}">
 
         <label for="date_start">Data d'inizio</label>
-        <input type="date" name="date_start">
+        <input type="date" name="date_start" value="{{$price -> date}}">
 
         <label for="date_end">Data di fine</label>
-        <input type="date" name="date_end">
+        <input type="date" name="date_end" value="{{$price -> date}}">
 
-        <input type="submit" value="Aggiungi">
+        <input type="submit" value="Aggiorna prezzi">
     </div>
-    </form> --}}
+    </form>
 
-    {{$price}}
+
+
 </div>
 @endsection
 

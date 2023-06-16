@@ -43,7 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/modificaPrezzi/creazione', [PriceController::class, 'createPrice'])-> name('createPrice');
     Route::post('/modificaPrezzi/creazione', [PriceController::class, 'storePrice'])-> name('priceStore');
     Route::get('/modificaPrezzi/aggiornamento/{price}', [PriceController::class, 'editPrice']) -> name('editPrice');
-
+    Route::post('/modificaPrezzi/aggiornamento/{price}', [PriceController::class, 'updatePrice']) -> name('updatePrice');
 });
 Auth::routes();
 
