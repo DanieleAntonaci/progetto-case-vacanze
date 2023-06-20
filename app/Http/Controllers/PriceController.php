@@ -16,6 +16,7 @@ use function PHPUnit\Framework\isNull;
 
 class PriceController extends Controller
 {
+    /////////////////////    PREZZI GIORNALIERI ////////////////////////////
     public function showPrice(Request $request){
         setlocale(LC_TIME, 'it_IT'); // Imposta la lingua italiana
 
@@ -25,7 +26,7 @@ class PriceController extends Controller
         $currentYear= Carbon::parse(now())->format('Y');
 
         // SE ARRIVA UN MESE DIVERSO DA I 12 MESI MI PORTA IL MESE CORRENTE
-        if($monthSelected === '-1' || $monthSelected === '0' || $monthSelected.isNull()){
+        if($monthSelected === '-1' || $monthSelected === '0' || $monthSelected == null){
             $monthSelected= Carbon::parse(now())->format('m');
         }
         
@@ -166,5 +167,85 @@ class PriceController extends Controller
         }
 
         return redirect()-> route('prices',-1);
+    }
+    public function deletePrice(Price $price){
+        var_dump($price);
+        $price -> apartments()-> sync([]);
+        $price -> delete();
+        return redirect() -> route('prices',-1);
+    }
+
+
+        /////////////////////    PREZZI SETTIMANALI ////////////////////////////
+    public function weekPrice (){
+        setlocale(LC_TIME, 'it_IT'); // Imposta la lingua italiana
+
+        $currentYear= Carbon::parse(now())->format('Y');
+
+        $prices= Price::whereYear('date', $currentYear)
+        ->whereMonth('date', '>=', 6)
+        ->whereMonth('date', '<=', 9)    
+        ->orderBy('date', 'asc')
+        ->orderBy('price')
+        ->with(['apartments' => function ($query) {
+            $query->select('name');
+        }])
+        -> get();
+
+        $apartmentList= Apartment::pluck('name')
+        ->toArray();
+
+        $startMonth = 6; // Giugno
+        $endMonth = 9; // Settembre
+
+        $saturdays = [];
+
+        // restituisce i sabati da giugno a settembre
+        for ($month = $startMonth; $month <= $endMonth; $month++) {
+            $startDate = Carbon::create(null, $month, 1)->startOfMonth();
+            $endDate = $startDate->copy()->endOfMonth();
+
+            while ($startDate <= $endDate) {
+                if ($startDate->dayOfWeek === Carbon::SATURDAY) {
+                    $saturdays[] = $startDate->toDateString();
+                }
+                $startDate->addDay();
+            }
+        }
+
+        $results = [];
+
+        foreach ($prices as $price) {
+            $weeklyPrice = 0;
+            $weekStartDate = null;
+            $apartmentName = '';
+
+            foreach ($price->apartments as $apartment) {
+                $currentDate = strtotime($price->date);
+
+                if ($weekStartDate === null) {
+                    $weekStartDate = $currentDate;
+                }
+
+                if ($currentDate - $weekStartDate < 7 * 24 * 60 * 60) {
+                    $weeklyPrice += $price->price;
+                    $apartmentName = $apartment->name;
+                } else {
+                    break;
+                }
+            }
+            $results[] = [
+                'apartmentName' => $apartmentName,
+                'weeklyPrice' => $weeklyPrice,
+                'weekStartDate' => date('Y-m-d', $weekStartDate),
+            ];
+        };
+        
+        return view('price.priceWeek', compact('apartmentList', 'saturdays', 'results'));
+    }
+
+    public function weekPriceCreate(){
+        $structures = Structure::with('apartments') -> get();
+        return view('price.priceWeekCreate', compact('structures'));
     }
 }

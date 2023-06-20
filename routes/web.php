@@ -38,12 +38,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/prenotazioni', [ReservationController::class, 'showReservation'] )-> name('reservation');
     Route::get('/prenotazioni/prenotazione/{reservation}', [ReservationController::class, 'reservatoionSingle']) -> name('reservationShow');
 
-    // PRICE
-    Route::get('/prezzi/{month}', [PriceController::class, 'showPrice'])-> name('prices');
+    // DAILY PRICES
+    Route::get('/prezziGiornalieri/{month}', [PriceController::class, 'showPrice'])-> name('prices');
     Route::get('/modificaPrezzi/creazione', [PriceController::class, 'createPrice'])-> name('createPrice');
     Route::post('/modificaPrezzi/creazione', [PriceController::class, 'storePrice'])-> name('priceStore');
     Route::get('/modificaPrezzi/aggiornamento/{price}', [PriceController::class, 'editPrice']) -> name('editPrice');
     Route::post('/modificaPrezzi/aggiornamento/{price}', [PriceController::class, 'updatePrice']) -> name('updatePrice');
+    Route::get('/modificaPrezzi/eliminazione/{price}', [PriceController::class, 'deletePrice'])-> name('deletePrice');
+
+    // WEEKLY PRICES
+    Route::get('/prezziSettimanali', [PriceController::class, 'weekPrice'])-> name('weekPrice');
+    Route::get('/prezziSettimanali/creazione', [PriceController::class, 'weekPriceCreate'])-> name('weekPriceCreate');
 });
 Auth::routes();
 

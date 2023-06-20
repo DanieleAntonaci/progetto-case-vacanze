@@ -38,8 +38,8 @@
 
         <tbody>
 
-            <tr>
-                    @foreach ($days as $day)
+            @foreach ($days as $day)
+                <tr>
 
                     <td>
                         {{$day}}
@@ -64,8 +64,8 @@
 
                     @endforeach
 
-                </tr>
-            @endforeach
+                    </tr>
+                @endforeach
         </tbody>
 
     </table>
