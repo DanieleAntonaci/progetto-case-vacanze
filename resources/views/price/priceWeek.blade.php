@@ -28,32 +28,32 @@
             @foreach ($saturdays as $key => $saturday)
                 <tr>
                     <td class="my_date sticky-column">
-                        {{date('d/m', strtotime($saturday))}}
+                        {{ date('d/m', strtotime($saturday)) }}
                         ->
-                        @if (count($saturdays) === $key + 1 )
-                            {{date('d/m', strtotime($saturday . '+7 days'))}}
+                        @if (count($saturdays) === $key + 1)
+                            {{ date('d/m', strtotime($saturday . '+7 days')) }}
                         @else
-
-                            {{date('d/m', strtotime($saturdays[$key + 1]))}}
+                            {{ date('d/m', strtotime($saturdays[$key + 1])) }}
                         @endif
                     </td>
-                    
+        
                     @foreach ($apartmentList as $apartment)
-                        
-                    <td>
-                        @foreach ($results as $result)
-                            @if ($result['weekStartDate'] === $saturday)
-                                    @if ($apartment === $result['apartmentName'])
-                                        {{$result['weeklyPrice']}}
-                                    @endif
+                        <td>
+                            @foreach ($results as $result)
+                                @if ($result['weekStartDate'] === $saturday)
+                                    @foreach ($result['weeklyPrice'] as $apartmentName => $price)
+                                        @if ($apartment === $apartmentName)
+                                            {{ $price }}
+                                        @endif
+                                    @endforeach
                                 @endif
                             @endforeach
                         </td>
-                       
-                 @endforeach
+                    @endforeach
                 </tr>
             @endforeach
         </tbody>
+        
     </table>
 @endsection
 

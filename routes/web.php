@@ -49,6 +49,7 @@ Route::middleware('auth')->group(function () {
     // WEEKLY PRICES
     Route::get('/prezziSettimanali', [PriceController::class, 'weekPrice'])-> name('weekPrice');
     Route::get('/prezziSettimanali/creazione', [PriceController::class, 'weekPriceCreate'])-> name('weekPriceCreate');
+    Route::post('/prezziSettimanali/creazione', [PriceController::class, 'updateWeekPrice'])-> name('updateWeekPrice');
 });
 Auth::routes();
 
