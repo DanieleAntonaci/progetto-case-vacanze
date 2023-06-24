@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container"> 
     <h1 class="text-center">INSERIMENTO PREZZI SETTIMANALI</h1>
     <a href="{{route('weekPrice')}}" class="btn btn-primary">Indietro</a>
 
@@ -36,5 +35,4 @@
         </div>
         <input type="submit" value="Aggiungi i prezzi" class="btn btn-primary mt-3">
     </form>
-</div>
 @endsection

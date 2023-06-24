@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+
     <a href="{{route('prices', -1)}}" class="btn btn-primary">Indietro</a>
 
     <form action="{{route('priceStore')}}" method="post">
@@ -36,5 +36,5 @@
         <input type="submit" value="Aggiungi">
     </div>
     </form>
-</div>
+
 @endsection

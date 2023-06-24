@@ -238,7 +238,7 @@ class PriceController extends Controller
                 'weekEndDate' => $weekEndDate->format('Y-m-d'),
             ];
         }
-        var_dump($results);
+
         return view('price.priceWeek', compact('apartmentList', 'saturdays', 'results'));
     }
         
@@ -313,5 +313,14 @@ class PriceController extends Controller
         }
         // ritorna alla funzione di aggiunta
         return $this->weekPrice();
+    }
+
+    public function weeklyEdit( $weeklyPrice,$weekStartDate ,$weekEndDate, $apartmentName ){
+        $structures = Structure::with('apartments') -> get();
+        return view('price.weeklypriceEdit',compact('structures', 'weeklyPrice','weekStartDate' ,'weekEndDate', 'apartmentName'));
+    }
+
+    public function weeklyUpdate(){
+        
     }
 }

@@ -2,8 +2,6 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-
     <div class="d-flex justify-content-between mb-4">
         <a class="btn btn-primary w-25" href="{{route('dashboard')}}">Indietro</a>
         <a class="btn btn-primary w-25" href="{{route('createPrice')}}">Aggiungi nuovi prezzi</a>
@@ -69,6 +67,5 @@
         </tbody>
 
     </table>
-</div>
 </div>
 @endsection

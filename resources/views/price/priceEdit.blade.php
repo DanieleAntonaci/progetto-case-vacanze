@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+
     <a href="{{route('prices', -1)}}" class="btn btn-primary">Indietro</a>
     <a href="{{route('deletePrice', $price)}}" class="btn btn-danger ms-3">Elimina prezzo</a>
 
@@ -43,9 +43,5 @@
         <input type="submit" value="Aggiorna prezzi">
     </div>
     </form>
-
-
-
-</div>
 @endsection
 

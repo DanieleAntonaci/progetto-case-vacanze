@@ -10,7 +10,8 @@ class MainController extends Controller
 {
     public function showApartment(){
         $apartments= Apartment::with('structure')->get();
-        return view('home', compact('apartments'));
+        $structures = Structure::all();
+        return view('home', compact('apartments', 'structures'));
     }
     public function showSingleApartment(Apartment $apartment){
         return view('apartment.apartment', compact('apartment'));

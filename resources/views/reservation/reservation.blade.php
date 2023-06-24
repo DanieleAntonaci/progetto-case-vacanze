@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
     <h1>
         {{$reservation -> guest}}
     </h1>
@@ -24,5 +23,4 @@
         {{$reservation -> price}},00 &euro;
 
     </b>
-</div>
 @endsection

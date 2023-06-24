@@ -43,7 +43,11 @@
                                 @if ($result['weekStartDate'] === $saturday)
                                     @foreach ($result['weeklyPrice'] as $apartmentName => $price)
                                         @if ($apartment === $apartmentName)
+                                        <a href="{{ route('weeklyEdit', ['weeklyPrice' => $price, 'weekStartDate' => $result['weekStartDate'], 'weekEndDate' => $result['weekEndDate'], 'apartmentName' => $apartmentName]) }}"
+                                            class="text-dark link-offset-2 link-underline link-underline-opacity-0">
                                             {{ $price }}
+                                        </a>
+    
                                         @endif
                                     @endforeach
                                 @endif

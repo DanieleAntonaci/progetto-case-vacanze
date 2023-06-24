@@ -24,12 +24,9 @@ Route::post('/register', function(){
 
 // 
 Route::middleware('auth')->group(function () {
-    Route::post('/', function(){
-        return view('auth.layouts.layout');
-    });
-    Route::get('/home', function(){
-        return view('menu.dashboard');
-    }) -> name('dashboard');
+    Route::post('/', function(){return view('auth.layouts.layout');});
+    Route::get('/home', function(){return view('menu.dashboard');}) -> name('dashboard');
+
     // APPARTAMENTI
     Route::get('/apartment', [MainController::class, 'showApartment'])->name('home');
     Route::get('/apartment/{apartment}', [MainController::class,'showSingleApartment'])-> name('singleApartment');
@@ -50,6 +47,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/prezziSettimanali', [PriceController::class, 'weekPrice'])-> name('weekPrice');
     Route::get('/prezziSettimanali/creazione', [PriceController::class, 'weekPriceCreate'])-> name('weekPriceCreate');
     Route::post('/prezziSettimanali/creazione', [PriceController::class, 'updateWeekPrice'])-> name('updateWeekPrice');
+    Route::get('/prezziSettimanali/aggiornamento/{weeklyPrice}/{weekStartDate}/{weekEndDate}/{apartmentName}', [PriceController::class, 'weeklyEdit'])->name('weeklyEdit');
+    Route::post('/prezziSettimanali/aggiornamento/{weeklyPrice}/{weekStartDate}/{weekEndDate}/{apartmentName}', [PriceController::class, 'weeklyUpdate'])->name('weeklyUpdate');
+    
 });
 Auth::routes();
 
